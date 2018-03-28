@@ -1,4 +1,4 @@
-/** //<>// //<>// //<>//
+/** //<>//
  *
  *  Buddhabrot / Nebulabrot progressive implementation
  *

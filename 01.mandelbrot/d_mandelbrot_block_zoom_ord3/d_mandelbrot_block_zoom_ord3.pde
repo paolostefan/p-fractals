@@ -10,7 +10,7 @@
  *  Right click: reset the zoom.
  */
 
-int pixSize = 500;
+int pixSize = 800;
 double rmin=-1.5, imin=-1.5, side=3;
 double rmax=rmin+side, imax=imin+side;
 
@@ -35,7 +35,7 @@ void settings() {
 
 void setup() {
 
-  colorMode( HSB, logmax, 255, 255 );
+  colorMode( HSB, logmax, maxIter, 255 );
 
   zoom = width/(rmax-rmin);
   init_zoom = zoom;
@@ -81,7 +81,7 @@ void draw() {
     for ( int i=0; i<width; i+=bsize ) {
 
       int it = mandel(i, j);
-      color col = (it==maxIter)? color(0): color( log(it), 255, 255 );
+      color col = (it==maxIter)? color(0): color( log(it), maxIter-it, 255 );
 
       if (bsize == 1) {
         pixels[j*width+i] = col;
