@@ -112,15 +112,15 @@ void drawMandel() {
 }
 
 /**
- * Draws the Julia set for C corresponding to the mouseX, mouxeY coordinates.
+ * Draws the Julia set for C corresponding to the mouseX, mouseY coordinates.
  *
- * Two loops iterate through pixels (x,y), translated into complex plane coordinates.
+ * Two loops iterate pixels (x,y), mapped to complex plane coordinates.
  * The translated coordinates are the starting point (z0) for the succession  z = z^2 + C . 
  * 
- * If, after maxJuliaIter, the modulus of the number is still below 2, the algorithm
- * assigns the current pixel to the Julia set.
+ * If, after maxJuliaIter, the modulus of the number is still below 2, the current pixel
+ * is believed to belong to the Julia set.
  */
-void drawJulia(float alpha) {
+void drawJulia(float alpha, float cr, float ci) {
   int iter, timestart, timeend, max = int(sqrt(maxJuliaIter));
 
   timestart = millis();
@@ -131,8 +131,6 @@ void drawJulia(float alpha) {
 
   color c;
   float re, im;
-  // Mouse coordinates - taken over Mandelbrot fractal
-  float cr = mandel_re_min + mouseX*mandel_step, ci = mandel_im_min+mouseY*mandel_step;
 
   // Start from 0,0, and (view_width-1, view_height-1)
   // counter is incremented, reverse_counter is decremented @each step
@@ -177,11 +175,15 @@ void drawJulia(float alpha) {
 
 void draw() {
   image(mandel, 0, 0);
+  
+  // Mouse coordinates - taken over Mandelbrot fractal
+  float cr = mandel_re_min + mouseX*mandel_step, ci = mandel_im_min+mouseY*mandel_step;
+  
   if (mousePressed) {
     if ( mouseX != prevx || mouseY != prevy ) {
       float alpha = mouseButton == LEFT? .5:1f;
-      // refresh Julia
-      drawJulia(alpha);
+      // refresh Julia fractal
+      drawJulia(alpha, cr, ci);
 
       prevx = mouseX;
       prevy = mouseY;
@@ -189,4 +191,12 @@ void draw() {
 
     image(julia, mouseX-view_width/4, mouseY-view_height/4, view_width/2, view_height/2 );
   }
+  
+  // Tell the user what coordinates they're over
+  fill( sqrt(maxMandIter) );
+  // Round values to 4 decimal digits
+  float rounded_cr, rounded_ci;
+  rounded_cr = float(Math.round(cr*100000))/100000;
+  rounded_ci = float(Math.round(abs(ci)*100000))/100000;
+  text( "C = (" + rounded_cr +" "+(ci>=0? '+':'-')+" i" + rounded_ci + ")", 10, 22 );
 }

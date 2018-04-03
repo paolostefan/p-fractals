@@ -1,10 +1,10 @@
-/** //<>//
+/**
  *
  *  Buddhabrot / Nebulabrot progressive implementation
  *
  *  . realtime update
  *  . each channel is given a different "bail out speed"
- *  
+ *
  * Possible optimizations:
  *  . starting points could be discarded with a better function
  *  . use 2 threads
@@ -86,13 +86,13 @@ int trajectory(float cr, float ci) {
     trajec[tj] = zrtmp = zr;
     trajec[tj+1] = zitmp = zi;
     // Test against a threshold bigger than 4,
-    // otherwise the image will be cropped to the 2.0-radius circle 
+    // otherwise the image will be cropped to the 2.0-radius circle
     if (zr*zr+zi*zi>12) break;
   }
   return n;
 }
 
-// Increment the pixels value in each channel, if it applies 
+// Increment the pixels value in each channel, if it applies
 void overlayTrajectory(int escaped) {
 
   for ( int ti=0; ti<2*escaped; ti+=2 ) {
@@ -139,15 +139,15 @@ void buddha3rot() {
 
     int n;
     /*
-    
+
      Pick a random point that may not belong to M.
-     
+
      The .4-radius disc centered in (-.2,0) belongs to M for sure.
      So does the .25-radius disc centered in (-1,0).
-     
+
      See http://en.wikipedia.org/wiki/Mandelbrot_set#Optimizations
      See also https://sites.google.com/site/fabstellar84/fractals/cardioid
-     
+
      Then, pick a random point farther than .4 from (-0.2+i0) using polar coordinates
      Please note: due to the fractal symmetry, it's enough to pick a point in the upper (Im>0)
      complex semi-plane.
@@ -246,7 +246,7 @@ void setup() {
   buddha[1] = new int[width*height];
   buddha[2] = new int[width*height];
 
-  // Load the font. Fonts must be placed within the data 
+  // Load the font. Fonts must be placed within the data
   // directory of your sketch. A font must first be created
   // using the 'Create Font...' option in the Tools menu.
   fontA = loadFont("Monospaced-12.vlw");
@@ -264,13 +264,13 @@ void setup() {
 
 // to debug arrays, also rename this to e.g. draw_()
 void draw() {
-  
+
   boolean info = true;
 
   buddha3rot();
   int ch [][] = {
-    buddha[channelOrder[0]], 
-    buddha[channelOrder[1]], 
+    buddha[channelOrder[0]],
+    buddha[channelOrder[1]],
     buddha[channelOrder[2]]
   };
 
